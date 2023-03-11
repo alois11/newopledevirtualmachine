@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Build R1CL
+name: Build MiR3
 
 on:
   repository_dispatch:
@@ -23,9 +23,9 @@ env:
   REPO_URL: https://github.com/coolsnowwolf/lede
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
-  CONFIG_FILE: r1cl.config
+  CONFIG_FILE: x86.config
   DIY_P1_SH: diy-part1.sh
-  DIY_P2_SH: r1cl.sh
+  DIY_P2_SH: diy-part2.sh
   UPLOAD_BIN_DIR: false
   UPLOAD_FIRMWARE: true
   UPLOAD_COWTRANSFER: false
@@ -73,11 +73,19 @@ jobs:
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
-              
+      
+    - name: install argon theme
+      run: |
+        cd openwrt/feeds/luci/themes/
+        rm -rf luci-theme-argon
+        rm -rf luci-theme-argon-mod
+        git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git
+          
     - name: add extra app
       run: |
        cd openwrt/package/lean
        git clone https://github.com/fw876/helloworld.git
+       git clone https://github.com/jerrykuku/luci-app-argon-config.git
        git clone https://github.com/jerrykuku/lua-maxminddb.git
        git clone https://github.com/jerrykuku/luci-app-vssr.git
        
