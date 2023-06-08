@@ -73,7 +73,28 @@ jobs:
 
     - name: Install feeds
       run: cd openwrt && ./scripts/feeds install -a
+      
+    - name: install argon theme
+      run: |
+        cd openwrt/feeds/luci/themes/
+        rm -rf luci-theme-argon
+        rm -rf luci-theme-argon-mod
+        git clone -b 18.06 https://github.com/jerrykuku/luci-theme-argon.git
+          
+    - name: add extra app
+      run: |
+       cd openwrt/package/lean
+       git clone https://github.com/fw876/helloworld.git
+       git clone https://github.com/jerrykuku/luci-app-argon-config.git
+       git clone https://github.com/jerrykuku/lua-maxminddb.git
+       git clone https://github.com/jerrykuku/luci-app-vssr.git
+       
+    - name: Update feeds
+      run: cd openwrt && ./scripts/feeds update -a
 
+    - name: Install feeds
+      run: cd openwrt && ./scripts/feeds install -a
+      
     - name: Load custom configuration
       run: |
         [ -e files ] && mv files openwrt/files
