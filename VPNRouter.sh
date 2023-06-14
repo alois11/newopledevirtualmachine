@@ -11,4 +11,4 @@
 #
 
 # hostname
-sed -i 's/OpenWrt/VPNRouterX86/g' package/base-files/files/bin/config_generate
+sed -i 's/OpenWrt/VPNRouter/g' package/base-files/files/bin/config_generate
